@@ -1,0 +1,62 @@
+[
+	{
+		"timestamp": 1715082326720,
+		"files": [
+			{
+				"filename": "bundle.*****.js",
+				"previous": 0,
+				"size": 495532,
+				"diff": 495532
+			},
+			{
+				"filename": "dom-polyfills.*****.js",
+				"previous": 0,
+				"size": 2122,
+				"diff": 2122
+			},
+			{
+				"filename": "monaco.*****.js",
+				"previous": 0,
+				"size": 507541,
+				"diff": 507541
+			},
+			{
+				"filename": "i18n-0.*****.js",
+				"previous": 0,
+				"size": 1658,
+				"diff": 1658
+			},
+			{
+				"filename": "i18n-1.*****.js",
+				"previous": 0,
+				"size": 2030,
+				"diff": 2030
+			},
+			{
+				"filename": "i18n-2.*****.js",
+				"previous": 0,
+				"size": 1877,
+				"diff": 1877
+			},
+			{
+				"filename": "i18n-3.*****.js",
+				"previous": 0,
+				"size": 2368,
+				"diff": 2368
+			},
+			{
+				"filename": "i18n-4.*****.js",
+				"previous": 0,
+				"size": 1551,
+				"diff": 1551
+			},
+			{ "filename": "index.html", "previous": 0, "size": 742, "diff": 742 },
+			{
+				"filename": "bundle.*****.css",
+				"previous": 0,
+				"size": 11298,
+				"diff": 11298
+			}
+		]
+	}
+]
