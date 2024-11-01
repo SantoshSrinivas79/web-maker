@@ -4,15 +4,20 @@ import { I18n } from '@lingui/react';
 import { ProBadge } from './ProBadge';
 import { HStack } from './Stack';
 import { useEffect, useState } from 'preact/hooks';
+import { DropdownMenu } from './Dropdown';
 
 const JS13K = props => {
 	const [daysLeft, setDaysLeft] = useState(0);
 
 	useEffect(() => {
-		const compoDate = new Date('August 13 2024 11:00 GMT');
+		const compoStartDate = new Date('August 13 2024 11:00 GMT');
+		const compoEndDate = new Date('September 13 2024 11:00 GMT');
 		const now = new Date();
-		if (+compoDate > +now) {
-			const _daysLeft = Math.floor((compoDate - now) / 1000 / 3600 / 24);
+		if (+compoStartDate > +now) {
+			const _daysLeft = Math.floor((compoStartDate - now) / 1000 / 3600 / 24);
+			setDaysLeft(_daysLeft);
+		} else if (+compoEndDate > +now) {
+			const _daysLeft = Math.floor((compoEndDate - now) / 1000 / 3600 / 24);
 			setDaysLeft(_daysLeft);
 		}
 	}, []);
@@ -107,7 +112,7 @@ export const Footer = props => {
 						<a
 							class="footer__link  hint--rounded  hint--top-right"
 							aria-label={i18n._(t`Tweet about 'Web Maker'`)}
-							href="http://twitter.com/share?url=https://webmaker.app/&text=Web Maker - A blazing fast %26 offline web playground! via @webmakerApp&related=webmakerApp&hashtags=web,frontend,playground,offline"
+							href="http://twitter.com/share?url=https://webmaker.app&text=Web Maker - A blazing fast %26 offline frontend playground! via @webmakerApp&related=webmakerApp&hashtags=web,frontend,playground,offline"
 							target="_blank"
 							rel="noopener noreferrer"
 						>
@@ -201,16 +206,36 @@ export const Footer = props => {
 					) : null}
 
 					<div class="footer__right">
-						<button
-							onClick={props.saveHtmlBtnClickHandler}
-							id="saveHtmlBtn"
-							class="mode-btn  hint--rounded  hint--top-left hide-on-mobile hide-in-file-mode"
-							aria-label={i18n._(t`Save as HTML file`)}
-						>
-							<svg viewBox="0 0 24 24">
-								<path d="M5,20H19V18H5M19,9H15V3H9V9H5L12,16L19,9Z" />
-							</svg>
-						</button>
+						<DropdownMenu
+							triggerText="More"
+							menuItems={[
+								{
+									label: 'Download HTML',
+									onClick: () => {
+										props.saveHtmlBtnClickHandler();
+									}
+								},
+								{
+									label: 'Download HTML (assets inlined)',
+									onClick: () => {
+										props.saveHtmlBtnClickHandler(true);
+									}
+								}
+							]}
+							position="top"
+							btnProps={{
+								id: 'saveHtmlBtn',
+								className:
+									'mode-btn  hint--rounded  hint--top-left hide-on-mobile hide-in-file-mode',
+								ariaLabel: i18n._(t`Save as HTML file`)
+							}}
+							btnContent={
+								<svg viewBox="0 0 24 24">
+									<path d="M5,20H19V18H5M19,9H15V3H9V9H5L12,16L19,9Z" />
+								</svg>
+							}
+						/>
+
 						<svg style="display: none;" xmlns="http://www.w3.org/2000/svg">
 							<symbol id="codepen-logo" viewBox="0 0 120 120">
 								<path

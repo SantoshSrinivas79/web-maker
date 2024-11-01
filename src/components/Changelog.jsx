@@ -107,7 +107,35 @@ export function Changelog(props) {
 		<div>
 			<h1>Whats new?</h1>
 
-			<Notification version="6.3.0" {...props} isLatest={true}>
+			<Notification version="6.4.0" {...props} isLatest={true}>
+				<li>
+					<strong>Assets inlining in "Save as HTML"</strong>: You now have an
+					option to inline all the external assets (images, audios,videos) in
+					the HTML file when you save the creation as HTML. This is useful when
+					you want to share the HTML file with someone and want it to work
+					offline. Currently supports assets defined in HTML file only.
+				</li>
+			</Notification>
+			<Notification version="6.3.7" {...props}>
+				<NotificationItem type="bug">
+					Setting changes not saving to database is fixed.
+				</NotificationItem>
+			</Notification>
+
+			<Notification version="6.3.6" {...props}>
+				<NotificationItem type="bug">
+					Import of creations (in logged in state) now always works even if the
+					same creations have been imported to some other account.
+				</NotificationItem>
+			</Notification>
+
+			<Notification version="6.3.4" {...props}>
+				<NotificationItem type="bug">
+					Public creations are now working.
+				</NotificationItem>
+			</Notification>
+
+			<Notification version="6.3.0" {...props}>
 				<NotificationItem type="bug">
 					Extension Only: JavaScript is NOW WORKING, again! 🎉 The extension is
 					now migrated to MV3 which means its much more secure, and of course,
@@ -119,7 +147,7 @@ export function Changelog(props) {
 				</NotificationItem>
 			</Notification>
 
-			<Notification version="6.2.0" {...props} isLatest={true}>
+			<Notification version="6.2.0" {...props}>
 				<li>Preact template updated to latest version with hooks.</li>
 				<li>Mail option added in help modal.</li>
 				<li>
@@ -182,7 +210,7 @@ export function Changelog(props) {
 					Fork button is now available in the header too
 				</NotificationItem>
 			</Notification>
-			<Notification version="5.3.0" {...props} isLatest={true}>
+			<Notification version="5.3.0" {...props}>
 				<li>
 					<strong>Tailwind CSS templates</strong>: Tailwind CSS template is now
 					available! If you are on the Chrome extension, use the Tailwind CSS 2
@@ -253,7 +281,7 @@ export function Changelog(props) {
 					for the Spanish translation. It was long due!
 				</NotificationItem>
 			</Notification>
-			<Notification version="4.2.0" {...props} isLatest={true}>
+			<Notification version="4.2.0" {...props}>
 				<li>
 					Tailwind CSS now added to popular libraries list. Thanks
 					<a href="https://github.com/LoganDark"> @LoganDark</a>

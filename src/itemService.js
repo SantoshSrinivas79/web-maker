@@ -1,5 +1,5 @@
 import { deferred } from './deferred';
-import { log } from './utils';
+import { log, refreshItemIds } from './utils';
 import {
 	collection,
 	deleteField,
@@ -168,7 +168,9 @@ export const itemService = {
 				}
 			);
 		} else {
-			window.db.getDb().then(remoteDb => {
+			const remoteDb = window.db.getDb();
+
+			function save(items) {
 				const batch = writeBatch(remoteDb);
 				/* eslint-disable guard-for-in */
 				for (var id in items) {
@@ -177,14 +179,40 @@ export const itemService = {
 					batch.update(doc(remoteDb, `users/${window.user.uid}`), {
 						[`items.${id}`]: true
 					});
+				}
+				return batch.commit();
+				/* eslint-enable guard-for-in */
+			}
 
+			function onSuccess(items) {
+				window.user.items = window.user.items || {};
+				for (var id in items) {
 					// Set these items on our cached user object too
-					window.user.items = window.user.items || {};
 					window.user.items[id] = true;
 				}
-				batch.commit().then(d.resolve);
-				/* eslint-enable guard-for-in */
-			});
+				d.resolve();
+			}
+
+			save(items)
+				.then(() => {
+					onSuccess(items);
+				})
+				.catch(e => {
+					// The only reason we know for this failing is the same creations were
+					// imported in other account. And hence they can't again be saved in the
+					// DB with same ID and different `createdBy`
+					// So now we save them with different IDs
+					log('Saving imported items failed. Trying with refreshed IDs now...');
+					const refreshedItems = refreshItemIds(items);
+					save(refreshedItems)
+						.then(() => {
+							onSuccess(refreshedItems);
+						})
+						.catch(e => {
+							log('Error saving items', e);
+							alert('Your items could not be saved. Please try again later.');
+						});
+				});
 		}
 		return d.promise;
 	},

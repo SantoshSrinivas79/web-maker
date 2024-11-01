@@ -84,7 +84,7 @@ if (module.hot) {
 }
 
 const UNSAVED_WARNING_COUNT = 15;
-const version = '6.3.1';
+const version = '6.4.0';
 
 // Read forced settings as query parameters
 window.forcedSettings = {};
@@ -1078,12 +1078,9 @@ export default class App extends Component {
 			db.sync.set(obj, function () {
 				alertsService.add('Setting saved');
 			});
+			debugger;
 			if (window.user) {
-				db.updateUserSetting(
-					window.user.uid,
-					settingName,
-					this.state.prefs[settingName]
-				)
+				db.updateUserSetting(window.user.uid, settingName, value)
 					.then(arg => {
 						log(`Setting "${settingName}" saved`, arg);
 					})
@@ -1248,10 +1245,9 @@ export default class App extends Component {
 		trackEvent('ui', 'openInCodepen');
 		e.preventDefault();
 	}
-	saveHtmlBtnClickHandler(e) {
-		saveAsHtml(this.state.currentItem);
+	saveHtmlBtnClickHandler(inlineAssets) {
+		saveAsHtml(this.state.currentItem, { inlineAssets });
 		trackEvent('ui', 'saveHtmlClick');
-		e.preventDefault();
 	}
 	runBtnClickHandler() {
 		this.contentWrap.setPreviewContent(true, true);
@@ -1348,10 +1344,13 @@ export default class App extends Component {
 			}
 		}
 		if (mergedItemCount) {
+			alertsService.add(
+				`Importing ${mergedItemCount} creation(s) in the background...`
+			);
 			itemService.saveItems(toMergeItems).then(() => {
 				d.resolve();
 				alertsService.add(
-					mergedItemCount + ' creations imported successfully.'
+					`${mergedItemCount} creation(s) imported successfully.`
 				);
 				trackEvent('fn', 'itemsImported', mergedItemCount);
 			});
